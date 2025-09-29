@@ -1,0 +1,231 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-09-28T22:15:00.000Z",
+  "__export_source": "insomnia.desktop.app:v10.0.0",
+  "resources": [
+    {
+      "_id": "wrk_demo",
+      "_type": "workspace",
+      "name": "Demo Proyecto",
+      "description": "",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_demo",
+      "name": "Base Environment",
+      "data": {},
+      "isPrivate": false
+    },
+    {
+      "_id": "env_dev",
+      "_type": "environment",
+      "parentId": "env_base",
+      "name": "dev",
+      "data": {
+        "base_url": "http://localhost:8080/"
+      },
+      "isPrivate": false
+    },
+    {
+      "_id": "req_login_admin",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Login Super Admin",
+      "method": "POST",
+      "url": "{{ _.base_url }}auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"super.admin@gmail.com\",\n  \"password\": \"superadmin123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {}
+    },
+    {
+      "_id": "req_login_user",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Login User Normal",
+      "method": "POST",
+      "url": "{{ _.base_url }}auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"test@gmail.com\",\n  \"password\": \"test123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {}
+    },
+    {
+      "_id": "req_create_categoria",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Crear Categoría",
+      "method": "POST",
+      "url": "{{ _.base_url }}categorias",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Electrónica\",\n  \"descripcion\": \"Todos los productos electrónicos\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_list_categorias_admin",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Listar Categorías (Admin)",
+      "method": "GET",
+      "url": "{{ _.base_url }}categorias",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_list_categorias_user",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Listar Categorías (User)",
+      "method": "GET",
+      "url": "{{ _.base_url }}categorias",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_user', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_update_categoria",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Actualizar Categoría",
+      "method": "PUT",
+      "url": "{{ _.base_url }}categorias/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Electrónica HD\",\n  \"descripcion\": \"Productos electrónicos HD\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_delete_categoria",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Eliminar Categoría",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}categorias/1",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_create_producto",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Crear Producto",
+      "method": "POST",
+      "url": "{{ _.base_url }}productos",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Televisor\",\n  \"descripcion\": \"Smart TV 55 pulgadas\",\n  \"precio\": 450000.0,\n  \"cantidad_en_stock\": 10,\n  \"categoria\": {\"id\": 1}\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_list_productos_admin",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Listar Productos (Admin)",
+      "method": "GET",
+      "url": "{{ _.base_url }}productos",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_list_productos_user",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Listar Productos (User)",
+      "method": "GET",
+      "url": "{{ _.base_url }}productos",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_user', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_update_producto",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Actualizar Producto",
+      "method": "PUT",
+      "url": "{{ _.base_url }}productos/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Televisor HD\",\n  \"descripcion\": \"Smart TV 55 pulgadas HD\",\n  \"precio\": 430000.0,\n  \"cantidad_en_stock\": 12,\n  \"categoria\": {\"id\": 1}\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    },
+    {
+      "_id": "req_delete_producto",
+      "_type": "request",
+      "parentId": "wrk_demo",
+      "name": "Eliminar Producto",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}productos/1",
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_login_admin', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+      }
+    }
+  ]
+}
